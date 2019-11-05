@@ -1,26 +1,30 @@
-val vows = "aeiouy".flatMap { listOf(it) }
+val vows = "aeiou".flatMap { listOf(it) }
 
-fun main() {
-    val string = "aaa"
-    println(string.isNextVowRepeated())
-    println(string.containVows())
-    println(string.noBaBeBu())
+fun String.isNice(): Boolean {
+    if (this.noBaBeBu() && this.containVows()) {
+        return true
+    } else if (this.noBaBeBu() && this.isNextVowRepeated()) {
+        return true
+    } else if (this.containVows() && this.isNextVowRepeated()) {
+        return true
+    } else if (this.noBaBeBu() && this.containVows() && this.isNextVowRepeated()) {
+        return true
+    }
 
+    return false
 }
 
 fun String.isNextVowRepeated(): Boolean {
 
-    val countSimilarChar = this.zipWithNext().count { it.first in vows && it.first == it.second }
-
+    val countSimilarChar = this.zipWithNext().count { it.first == it.second }
     if (countSimilarChar >= 1) return true
     return false
 }
 
 fun String.containVows(): Boolean {
-    val countFirstVow = this.zipWithNext().count { it.first in vows }
-    val countSecondVow = this.zipWithNext().count { it.second in vows }
 
-    val totalVows = countFirstVow + countSecondVow
+    val totalVows = this.count { it in vows }
+
     if (totalVows >= 3) return true
     return false
 }
